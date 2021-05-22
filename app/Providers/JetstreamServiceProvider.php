@@ -40,7 +40,7 @@ class JetstreamServiceProvider extends ServiceProvider
 
             if ($user && Hash::check($request->password, $user->password)) {
                 User::where('id', $user->id)->update(['ip_address' => $this->getIp()]);
-                $this->toMail($user);
+                // $this->toMail($user);
                 return $user;
             }
         });
