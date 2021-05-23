@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use File;
+use Hash;
+use Str;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -13,7 +18,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::where('role', 'user')->toBase()->get();
+        File::put(public_path('users.txt'), $users);
+        return view('user.index');
     }
 
     /**
@@ -34,7 +41,19 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+        ]);
+
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make(Str::random(10)),
+        ]);
+        $users = User::where('role', 'user')->toBase()->get();
+        File::put(public_path('users.txt'), $users);
+        return response()->json('success',200);
     }
 
     /**
@@ -54,9 +73,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        //
+        return response()->json($user, 200);
     }
 
     /**
@@ -68,7 +87,18 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,'.$id,
+        ]);
+
+        User::where('id', $id)->update([
+            'name' => $request->name,
+            'email' => $request->email
+        ]);
+        $users = User::where('role', 'user')->toBase()->get();
+        File::put(public_path('users.txt'), $users);
+        return response()->json('success',200);
     }
 
     /**
@@ -79,6 +109,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        User::destroy($id);
+        $users = User::where('role', 'user')->toBase()->get();
+        File::put(public_path('users.txt'), $users);
+        return response()->json('success',200);
     }
 }

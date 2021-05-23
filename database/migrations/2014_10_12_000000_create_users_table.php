@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('profile_photo_path')->nullable();
             $table->enum('role', ['admin', 'user'])->default('user');
             $table->string('ip_address')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

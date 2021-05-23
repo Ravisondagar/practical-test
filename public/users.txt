@@ -1,0 +1,1 @@
+[{"id":2,"name":"user","email":"user@gmail.com","email_verified_at":"2021-05-23 17:08:49","password":"$2y$10$tSaZgaSSsuoF6G8.yii7zOkrutvMkon8TjlMVmGYRIUValtN7\/XBm","two_factor_secret":null,"two_factor_recovery_codes":null,"remember_token":null,"current_team_id":null,"profile_photo_path":null,"role":"user","ip_address":null,"deleted_at":null,"created_at":null,"updated_at":null}]
