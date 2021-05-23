@@ -25,6 +25,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function(){
 	})->name('dashboard');
 });
 
+Route::middleware('admin')->group(function(){
+    Route::resource('/users', 'UserController');
+});
+
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
 })->middleware('auth')->name('verification.notice');

@@ -25,10 +25,13 @@
                             " />
 
                 <x-jet-label for="photo" value="{{ __('Photo') }}" />
-
                 <!-- Current Profile Photo -->
                 <div class="mt-2" x-show="! photoPreview">
-                    <img src="{{ $this->user->profile_photo_url }}" alt="{{ $this->user->name }}" class="rounded-full h-20 w-20 object-cover">
+                    @if ($this->user->profile_photo_path)
+                        <img src="{{ asset('storage/'.Auth::user()->profile_photo_path) }}" alt="{{ $this->user->name }}" class="rounded-full h-20 w-20 object-cover">
+                    @else
+                        <img src="{{ $this->user->profile_photo_url }}" alt="{{ $this->user->name }}" class="rounded-full h-20 w-20 object-cover">
+                    @endif
                 </div>
 
                 <!-- New Profile Photo Preview -->
@@ -55,14 +58,14 @@
         <!-- Name -->
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="name" value="{{ __('Name') }}" />
-            <x-jet-input id="name" type="text" class="mt-1 block w-full" wire:model.defer="state.name" autocomplete="name" />
+            <x-jet-input id="name" type="text" class="mt-1 block w-full" wire:model.defer="state.name" autocomplete="name" value="{!! Auth::user()->name !!}" />
             <x-jet-input-error for="name" class="mt-2" />
         </div>
 
         <!-- Email -->
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="email" value="{{ __('Email') }}" />
-            <x-jet-input id="email" type="email" class="mt-1 block w-full" wire:model.defer="state.email" />
+            <x-jet-input id="email" type="text" class="mt-1 block w-full" wire:model.defer="state.email" value="{!! Auth::user()->email !!}" readonly />
             <x-jet-input-error for="email" class="mt-2" />
         </div>
     </x-slot>
